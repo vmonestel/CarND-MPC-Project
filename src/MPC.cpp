@@ -65,7 +65,7 @@ class FG_eval {
 
     /*
      * Initial constraints
-     * Since the cost is located at 0, we add 1 to the array indexl
+     * Since the cost is located at 0, we add 1 to the array index
      */
     fg[1 + x_start] = vars[x_start];
     fg[1 + y_start] = vars[y_start];
@@ -254,6 +254,16 @@ vector<double> MPC::Solve(Eigen::VectorXd state, Eigen::VectorXd coeffs) {
   auto cost = solution.obj_value;
   std::cout << "Cost " << cost << std::endl;
 
-  // Return the first actuator values
-  return {solution.x[delta_start], solution.x[a_start]};
+  vector<double> result;
+
+  // Return the first actuator values in first and second positions of the
+  // result vector
+  result.push_back(solution.x[delta_start]);
+  result.push_back(solution.x[a_start]);
+
+  for (int i = 1; i < N; i++) {
+    result.push_back(solution.x[x_start + i]);
+    result.push_back(solution.x[y_start + i]);
+  }
+  return result;
 }
