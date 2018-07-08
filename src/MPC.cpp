@@ -12,7 +12,7 @@ double dt = 0.1;
 /*
  * The reference velocity is set to 40 mph.
  */
-double ref_v = 40;
+double ref_v = 100;
 
 /*
  * The solver takes all the state variables and actuator
@@ -27,16 +27,6 @@ size_t epsi_start = cte_start + N;
 size_t delta_start = epsi_start + N;
 size_t a_start = delta_start + N - 1;
 
-// This value assumes the model presented in the classroom is used.
-//
-// It was obtained by measuring the radius formed by running the vehicle in the
-// simulator around in a circle with a constant steering angle and velocity on a
-// flat terrain.
-//
-// Lf was tuned until the the radius formed by the simulating the model
-// presented in the classroom matched the previous radius.
-//
-// This is the length from front to CoG that has a similar radius.
 const double Lf = 2.67;
 
 class FG_eval {
@@ -69,8 +59,8 @@ class FG_eval {
 
     /* Minimize the value gap between sequential actuations. */
     for (int t = 0; t < N - 2; t++) {
-      fg[0] += 100000*CppAD::pow(vars[delta_start + t + 1] - vars[delta_start + t], 2);
-      fg[0] += 25000*CppAD::pow(vars[a_start + t + 1] - vars[a_start + t], 2);
+      fg[0] += 300000*CppAD::pow(vars[delta_start + t + 1] - vars[delta_start + t], 2);
+      fg[0] += 15000*CppAD::pow(vars[a_start + t + 1] - vars[a_start + t], 2);
     }
 
     /*
